@@ -1,0 +1,20 @@
+# Secrets and local configuration
+.env
+
+# Local databases and uploaded data
+*.db
+uploaded_dbs/
+media_store/
+media_storage/
+
+# Python environments and generated files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local editor settings and server logs
+.vscode/
+uvicorn*.log
+*.out.log
+*.err.log

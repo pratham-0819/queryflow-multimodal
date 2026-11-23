@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryFlow — Playful Neo-Brutalist SQL Poster</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<!-- Outer Rounded Neo-Brutalist Poster Frame -->
+<div class="poster-frame">
+
+  <!-- TOP BAR -->
+  <header class="poster-topbar">
+    <div class="brand-wordmark">QUERYFLOW</div>
+
+    <!-- Hanging Cream Tab Navigation -->
+    <nav class="hanging-tab-nav">
+      <a href="#querySection">QUERY</a>
+      <a href="#schemaSection">SCHEMA</a>
+      <a href="#historySection" id="navHistoryLink">HISTORY</a>
+      <a href="#docsSection" id="navDocsLink">DOCS</a>
+      <a href="#mediaSection">MEDIA</a>
+      <a href="#mediaSearchSection">MEDIA SEARCH</a>
+      <!-- Model Badge Pill inside Nav -->
+      <div class="model-pill" id="modelPill">
+        <span></span> AI · SQLite
+      </div>
+    </nav>
+
+    <div class="topbar-right">
+      <button class="btn-poster-square" id="newQueryBtn">NEW QUERY</button>
+      <!-- Hidden theme toggle preserved for compatibility -->
+      <button id="themeToggle" class="hidden" aria-hidden="true"><span id="themeIcon"></span></button>
+    </div>
+  </header>
+
+  <!-- HERO POSTER SECTION -->
+  <section class="hero-poster">
+    <!-- Massive Headline & Overlapping 3D Mascot -->
+    <div class="headline-wrap">
+      <h1 class="hero-headline">ASK YOUR<br>DATABASE.</h1>
+      <div class="mascot-container">
+        <img src="/static/mascot.svg" id="mascotImg" class="mascot-img" alt="QueryFlow Mascot">
+      </div>
+    </div>
+
+    <!-- Subtitle & Mode Selector Row -->
+    <div class="hero-bottom-grid">
+      <div class="hero-sub-block">
+        <p class="hero-subtitle">
+          Turn plain English into safe SQL. Read, add, update, delete and JOIN across tables.
+        </p>
+        <button class="hero-cta-btn" id="demoCtaBtn">TRY AN EXAMPLE</button>
+      </div>
+
+      <!-- Mode Selector Card (Right Side) -->
+      <div class="mode-selector-card" id="modeSelectorCard">
+        <div class="mode-row selected" data-mode="read">
+          <span>READ</span>
+          <span class="mode-arrow">→</span>
+        </div>
+        <div class="mode-row" data-mode="add">
+          <span>ADD</span>
+          <span class="mode-arrow">→</span>
+        </div>
+        <div class="mode-row" data-mode="update">
+          <span>UPDATE</span>
+          <span class="mode-arrow">→</span>
+        </div>
+        <div class="mode-row" data-mode="delete">
+          <span>DELETE</span>
+          <span class="mode-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN QUERY PANEL & DATABASE CONTROLS -->
+  <section class="poster-workspace" id="querySection">
+
+    <!-- Top Controls Grid (Database, API Key, Schema) -->
+    <div class="controls-grid" id="schemaSection">
+      <!-- Database Card -->
+      <div class="poster-card">
+        <div class="card-label">
+          <span>Active Database</span>
+        </div>
+        <div class="db-name" id="dbName">sample.db</div>
+        <label class="upload-toggle">
+          <input id="customDbToggle" type="checkbox">
+          <span>Use my SQL file</span>
+        </label>
+        <div id="uploadBox" class="upload-box hidden">
+          <input id="sqlFile" type="file" accept=".sql">
+          <button id="uploadBtn" class="btn-poster-square">Import SQL</button>
+          <button id="resetDbBtn" class="text-btn">Use sample database</button>
+          <div class="hint">Import your script into an isolated database.</div>
+        </div>
+      </div>
+
+      <!-- Connection / API Key Card -->
+      <div class="poster-card">
+        <div class="card-label">
+          <span id="apiKeyLabel">API Key</span>
+        </div>
+        <input id="apiKey" type="password" placeholder="Key (or set in .env)">
+        <div class="hint">Sent only with requests. Leave blank to use configured .env key.</div>
+      </div>
+
+      <!-- Schema Explorer Card -->
+      <div class="poster-card">
+        <div class="card-label">
+          <span>Schema Tables</span>
+          <span id="tableCount" class="count"></span>
+        </div>
+        <div id="schemaList" class="schema-chips-wrap">
+          <div class="skeleton" style="width:100%;height:32px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Query Composer Card -->
+    <div class="composer-card">
+      <div class="composer-top">
+        <div class="composer-badge">
+          <span>01</span>
+          <b>Natural Language Instruction</b>
+        </div>
+        <div class="hint">Press <b>Ctrl + Enter</b> to run</div>
+      </div>
+
+      <div class="composer-area">
+        <textarea id="question" rows="4" placeholder="Try: Show customer names and their total spending by joining customers, orders and order_items..."></textarea>
+        <div class="composer-actions-row">
+          <button id="clearQuestionBtn" class="btn-poster-square" type="button">Clear</button>
+          <button id="runBtn" class="generate-btn">
+            <span>Generate SQL</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Example Chips -->
+      <div class="examples-block">
+        <div class="examples-title">Example Prompts</div>
+        <div id="examples" class="examples"></div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="poster-toolbar" id="historySection">
+      <button id="historyBtn" class="ghost">
+        <span>⌚ SQL History</span>
+      </button>
+      <span id="dbStatus" class="db-status-label">Using sample.db</span>
+    </div>
+
+    <!-- History Panel -->
+    <section id="historyPanel" class="history-card hidden">
+      <div class="result-head">
+        <h2>Saved SQL History</h2>
+        <button id="clearHistoryBtn" class="text-btn">Clear History</button>
+      </div>
+      <div id="historyList"></div>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading-card hidden">
+      <div class="loader"></div>
+      <div>
+        <strong>Thinking through your schema…</strong>
+        <span>Generating valid SQLite and validating safety guardrails</span>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="error-card hidden"></div>
+
+    <!-- Confirmation Card (Guarded Writes: INSERT / UPDATE / DELETE) -->
+    <section id="confirmation" class="confirm-card hidden">
+      <div class="confirm-badge" id="confirmBadge">ACTION REQUIRED</div>
+      <h2 id="confirmTitle">Review Database Modification</h2>
+      <p id="confirmMessage"></p>
+      <pre id="pendingSql"><code></code></pre>
+      <label class="confirm-check">
+        <input id="confirmCheckbox" type="checkbox">
+        <span id="confirmLabel">I have reviewed this SQL and understand that it will modify data in the database.</span>
+      </label>
+      <button id="confirmBtn" class="confirm-btn" disabled>Confirm & Execute</button>
+    </section>
+
+    <!-- Results Section -->
+    <section id="result" class="result-card hidden">
+      <div class="result-head">
+        <h2>Generated SQL Query</h2>
+        <div class="result-actions">
+          <button id="copyBtn" class="btn-poster-square">Copy SQL</button>
+          <button id="exportCsvBtn" class="btn-poster-square">Export CSV</button>
+        </div>
+      </div>
+      <pre id="sql"><code></code></pre>
+
+      <div class="result-head">
+        <h2>Query Results <span id="rowCount" class="count"></span></h2>
+      </div>
+      <div class="table-wrap">
+        <table id="resultTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <section id="emptyState" class="empty-card">
+      <div class="empty-icon">⌁</div>
+      <h2>Your Results Will Appear Here</h2>
+      <p>Ask a question above in plain English. QueryFlow understands SELECTs, multi-table JOINs, INSERTs, guarded UPDATEs, and DELETEs.</p>
+    </section>
+
+    <!-- Docs Section Anchor -->
+    <div id="docsSection" style="padding-top:10px"></div>
+
+    <section id="mediaSection" class="media-section">
+      <div class="media-heading">
+        <div><div class="examples-title">MULTIMODAL WORKSPACE</div><h2>Media Library</h2>
+          <p>Upload images, audio, video, and documents. Processing runs in the background.</p></div>
+      </div>
+      <div class="media-upload-card">
+        <label for="mediaFiles">Choose files (up to 20, 50 MB each)</label>
+        <input id="mediaFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.mp3,.wav,.m4a,.ogg,.mp4,.mov,.avi,.webm,.pdf,.txt,.docx">
+        <button id="mediaUploadBtn" class="hero-cta-btn" type="button">UPLOAD & PROCESS</button>
+        <span id="mediaMessage" role="status" class="hint"></span>
+      </div>
+      <div class="media-toolbar">
+        <label>Type
+          <select id="mediaTypeFilter"><option value="">All</option><option value="image">Images</option><option value="audio">Audio</option><option value="video">Video</option><option value="document">Documents</option></select>
+        </label>
+        <button id="refreshMedia" class="btn-poster-square" type="button">REFRESH</button>
+      </div>
+      <div id="mediaGrid" class="media-grid"><p class="hint">Open Media to load your library.</p></div>
+    </section>
+
+    <section id="mediaSearchSection" class="media-section">
+      <div class="examples-title">MEDIA SEARCH</div><h2>Search extracted content</h2>
+      <p class="hint">Search uses keyword matching for now. AI descriptions and transcripts are searchable when configured.</p>
+      <div class="media-search-row"><input id="mediaSearchQuery" type="search" placeholder="Try: neural networks, crowded temple…"><button id="mediaSearchBtn" class="btn-poster-square" type="button">SEARCH</button></div>
+      <div id="mediaSearchResults" class="media-grid"></div>
+    </section>
+  </section>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#6B6BE8"/>
+  <g fill="none" stroke-linecap="round" opacity="0.38">
+    <!-- Contour wave lines in darker indigo #6262DC -->
+    <path d="M-50,100 C100,50 150,220 300,160 C450,100 500,240 650,200" stroke="#6262DC" stroke-width="2.5"/>
+    <path d="M-50,160 C120,110 180,270 330,210 C480,150 520,300 650,260" stroke="#6262DC" stroke-width="2"/>
+    <path d="M-50,220 C140,170 210,320 360,260 C510,200 540,360 650,320" stroke="#6262DC" stroke-width="2.5"/>
+    <path d="M-50,280 C160,230 240,370 390,310 C540,250 560,420 650,380" stroke="#6262DC" stroke-width="2"/>
+    <path d="M-50,340 C180,290 270,420 420,360 C570,300 580,480 650,440" stroke="#6262DC" stroke-width="2.5"/>
+    <path d="M-50,400 C200,350 300,470 450,410 C600,350 600,540 650,500" stroke="#6262DC" stroke-width="2"/>
+
+    <!-- Contour wave lines in lighter indigo #7676EE -->
+    <path d="M-50,70 C80,30 130,190 280,130 C430,70 470,210 650,170" stroke="#7676EE" stroke-width="2"/>
+    <path d="M-50,130 C100,80 160,250 310,190 C460,130 490,270 650,230" stroke="#7676EE" stroke-width="2.5"/>
+    <path d="M-50,190 C120,140 190,300 340,240 C490,180 510,330 650,290" stroke="#7676EE" stroke-width="2"/>
+    <path d="M-50,250 C140,200 220,350 370,290 C520,230 530,390 650,350" stroke="#7676EE" stroke-width="2.5"/>
+    <path d="M-50,310 C160,260 250,400 400,340 C550,280 550,450 650,410" stroke="#7676EE" stroke-width="2"/>
+    <path d="M-50,370 C180,320 280,450 430,390 C580,330 570,510 650,470" stroke="#7676EE" stroke-width="2.5"/>
+    <path d="M-50,430 C200,380 310,500 460,440 C610,380 590,570 650,530" stroke="#7676EE" stroke-width="2"/>
+
+    <!-- Concentric topographic circles & swirls -->
+    <ellipse cx="200" cy="180" rx="70" ry="40" transform="rotate(-15 200 180)" stroke="#6262DC" stroke-width="2"/>
+    <ellipse cx="200" cy="180" rx="50" ry="26" transform="rotate(-15 200 180)" stroke="#7676EE" stroke-width="2"/>
+    <ellipse cx="200" cy="180" rx="30" ry="14" transform="rotate(-15 200 180)" stroke="#6262DC" stroke-width="1.8"/>
+
+    <ellipse cx="480" cy="460" rx="80" ry="45" transform="rotate(20 480 460)" stroke="#7676EE" stroke-width="2"/>
+    <ellipse cx="480" cy="460" rx="55" ry="30" transform="rotate(20 480 460)" stroke="#6262DC" stroke-width="2"/>
+    <ellipse cx="480" cy="460" rx="30" ry="16" transform="rotate(20 480 460)" stroke="#7676EE" stroke-width="1.8"/>
+  </g>
+</svg>
